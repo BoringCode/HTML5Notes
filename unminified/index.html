@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>HTML5Notes</title>
+<!--this stuff is for iPhones and mobile devices-->
+<meta name="viewport"content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<link href="ios.png" rel="apple-touch-icon"/>
+
+<!--fonts and CSS-->
+<script type="text/javascript" src="http://use.typekit.com/hce0mgw.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+<link rel="stylesheet" href="notetaker.css" type="text/css">
+
+</head>
+<body>
+
+<!--Hmm... I wonder what <header> does... I love how meanful the new elements are in HTML5-->
+<header>
+
+<h1>HTML5<span class="notestitle">Notes</span></h1>
+<a href="#" id="addnote">Add Note</a>
+
+</header>
+
+<!--new note div-->
+<div id="newnote">
+
+<h2>Add New Note</h2>
+<input type="text" id="notetitle" placeholder="Note Title">
+<textarea id="notetext" placeholder="Note Text"></textarea>
+<input type="submit"id="submitnote" value="Add Note">
+<p>Feel free to use HTML (breaks will be added automatically)!<a href="#" id="closenewnote">X</a></p>
+
+</div>
+
+<!--this is where the hotness happens-->
+<section>
+
+<ul>
+<!--error message will be replaced by script-->
+<h1>Looks like there are no notes. Add some!</h1>
+</ul>
+
+<!--"note viewer" this is where a single note will show up when requested by the user-->
+<div class="noteviewer">
+<a href="#" class="back">View All</a>
+<div id="notesection"></div>
+</div>
+
+</section>
+
+<footer>
+Created by <a href="http://twitter.com/BoringCode" target="_blank">Bradley Rosenfeld</a>
+<a href="#" id="deleteall">Delete All</a>
+</footer>
+
+<script type="text/javascript"src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.2.min.js"></script>
+<script type="text/javascript"src="hashchange.js"></script><script type="text/javascript"src="notescript.js"></script>
+
+</body>
+</html>
