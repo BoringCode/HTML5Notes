@@ -4,7 +4,7 @@ var animate = {
 			elem.style.opacity = 0;
 			elem.style.display = "block";
 		}
-		fadetimer = setInterval(function(){
+		fadetimer = setInterval(function() {
 			elem.style.opacity =+ (elem.style.opacity) + .02;
 			if (elem.style.opacity >= 1) {
 				clearInterval(fadetimer);
@@ -29,22 +29,36 @@ var animate = {
 				}
 			}
 		}, speed);
+	},
+	pushDown: function(elem1, elem2, speed, callback = false) {
+		if (elem1.style && elem2.style) {
+			elem1.style.position = "relative";
+			elem2.style.position = "absolute";
+			elem1.style.top = 0;
+			elem2.style.top = -elem2.offsetHeight + "px";
+		}
+		pushTimer = setInterval(function() {
+			elem1.style.top =+ parseInt(elem1.style.top) + 25 + "px";
+			elem2.style.top =+ parseInt(elem2.style.top) + 25 + "px";
+			if (parseInt(elem1.style.top) >= elem2.offsetHeight) {
+				clearInterval(pushTimer);
+				if (typeof(callback) === "function") {
+					callback();
+				}
+			}
+		}, speed);
 	}
 }
 
 var notes = {
-	title: null,
 	section: null,
 	hash: null,
-	init : function(selector, title) {
+	init : function(selector) {
 		this.section = document.querySelector(selector)
-		this.title = title
 		return this
 	},
 	show : function() {
-		console.log(this.title);
 		section = this.section;
-		newTitle = this.title;
 		section.innerHTML = "";
 		if (localStorage.length !== 0) {
 			if (location.hash === "" || location.hash === "#home") {
@@ -52,41 +66,42 @@ var notes = {
 				for (key in localStorage) {
 					//get the local storage key and value
 					value = JSON.parse(localStorage.getItem(key));
-					note = document.createElement("li")
+					note = document.createElement("li");
 					note.innerHTML = '<h2>' + value.note[0].data.title + '</h2> <time>Created on ' + value.note[0].data.date + ' at ' + value.note[0].data.time + '</time> <a href="#' + value.note[0].data.id + '">View Note</a></li>';
+					section.appendChild(note);
+					animate.fadeIn(note, 20);
 				}
 			} else {
+				note = document.createElement("li");
 				//check to make sure note exists
 				if (location.hash.substring(1) in localStorage) {
 					//check to make sure it hasn't been loaded already
 					if (location.hash.substring(1) !== this.hash) {
 						id = location.hash.substring(1);
 						value = JSON.parse(localStorage.getItem(id));
-						note = document.createElement("li");
-						note.innerHTML = '<h2>' + value.note[0].data.title + '</h2> <time>Created on ' + value.note[0].data.date + ' at ' +value.note[0].data.time + '</time> <p>' + value.note[0].data.note + '</p>';
-						newTitle = value.note[0].data.title + " | " + newTitle;
+						note.innerHTML = '<h2>' + value.note[0].data.title + '</h2> <time>Created on ' + value.note[0].data.date + ' at ' +value.note[0].data.time + '</time> <p>' + value.note[0].data.note + '</p> <a href="#home">Go back</a>';
 					}
 				} else {
-					note = document.createElement("li");
 					note.innerHTML = "<h2>Looks like that note doesn't exist.</h2> <a href='#home'>Go back</a>";
-					nTitle = "404 | " + newTitle;
 				}
+				note.setAttribute("class", "single-note");
 				this.hash = location.hash.substring(1);
+				section.appendChild(note);
+				animate.fadeIn(note, 20);
 			}
 		} else {
 			note = document.createElement("li");
 			note.innerHTML = "<h1>Looks like there are no notes. Add some!</h1>";
+			section.appendChild(note);
+			animate.fadeIn(note, 20);
 		}
-		section.appendChild(note);
-		animate.fadeIn(note, 15);
-		document.title = newTitle;
 	},
 	create: function(title, note) {
 		note = note.replace(/(\r\n|\n|\r)/gm, "<br>");
 		//come up with a random ID
 		id = Math.floor(Math.random()*90000);
 		//if the random ID has been used already, try again
-		while (localStorage.getItem(id) !== null) {
+		while (id in localStorage) {
 			id = Math.floor(Math.random()*90000);
 		}
 		//get the date and time
@@ -113,9 +128,10 @@ var notes = {
 				  }
 			}]
 		};
+		console.log(object);
 		//add the object to local storage
 		localStorage.setItem(id, JSON.stringify(object));	
-		return true
+		location.hash = "#home";
 	},
 	remove: function(id) {
 		if (id === "all") {
@@ -125,6 +141,27 @@ var notes = {
 		}
 	}
 }
-instance = notes.init(".notes-section ul", "HTML5Notes")
+
+instance = notes.init(".notes-section ul")
 instance.show()
 window.onhashchange = instance.show;
+
+//add notes
+document.querySelector(".add-note").onclick = function() {
+	animate.pushDown(document.querySelector(".wrap"), document.querySelector(".new-note"), 10);
+	//save new note
+	document.querySelector(".save-note").onclick = function() {
+		noteTitle = document.querySelector(".note-title").value;
+		noteText = document.querySelector(".note-text").value;
+		if (noteTitle !== "" && noteText !== "") {
+			instance.create(noteTitle, noteText);
+		}
+		noteTitle = "";
+		noteText = "";
+	}
+	return false;
+}
+//go home
+document.querySelector("header h1").onclick = function() {
+	location.hash = "#home";
+}

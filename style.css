@@ -12,9 +12,12 @@ body {
 }
 
 .new-note {
-	height: 500px;
 	position: absolute;
 	top: -500px;
+	width: 100%;
+	background-color: #CCC;
+	z-index: 1001;
+	height: 300px;
 }
 
 .wrap {
