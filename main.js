@@ -155,9 +155,9 @@ document.querySelector(".add-note").onclick = function() {
 		noteText = document.querySelector(".note-text").value;
 		if (noteTitle !== "" && noteText !== "") {
 			instance.create(noteTitle, noteText);
+			noteTitle = "";
+			noteText = "";
 		}
-		noteTitle = "";
-		noteText = "";
 	}
 	return false;
 }
