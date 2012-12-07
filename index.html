@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<title>HTML5Notes</title>
+		<meta charset="utf-8">
 		<meta name="viewport"content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta content="yes" name="apple-mobile-web-app-capable" /><link href="ios.png" rel="apple-touch-icon"/>
 		<link rel="stylesheet" href="notetaker.css"type="text/css">
@@ -9,27 +10,28 @@
 	<body>
 		<header>
 			<h1>HTML5<span class="notestitle">Notes</span></h1>
-			<a href="#" id="addnote">Add Note</a>
+			<a href="#" "add-note">Add Note</a>
 		</header>
 		<div id="newnote">
 			<h2>Add New Note</h2>
-			<input type="text" id="notetitle" placeholder="Note Title">
-			<textarea id="notetext" placeholder="Note Text"></textarea>
-			<input type="submit"id="submitnote"value="Add Note">
-			<p>Feel free to use HTML (breaks will be added automatically)!<a href="#" id="closenewnote">X</a></p>
+			<input type="text" class="note-title" placeholder="Note Title">
+			<textarea class="note-text" placeholder="Note Text"></textarea>
+			<input type="submit" class="save-note" value="Add Note">
+			<a href="#" class="close">X</a>
 		</div>
 		<section>
-			<ul>
-				<h1>Looks like there are no notes. Add some!</h1>
+			<ul class="notes-section">
+				<li>
+					<h1>Looks like there are no notes. Add some!</h1>
+				</li>
 			</ul>
-			<div class="noteviewer">
-				<a href="#" class="back">View All</a>
-				<div id="notesection"></div>
-			</div>
+			<a href="#" class="back">View All</a>
 		</section>
-		<footer>Created by <a href="http://twitter.com/BoringCode"target="_blank">Bradley Rosenfeld</a><a href="#" id="deleteall">Delete All</a></footer>
-		<script type="text/javascript"src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.2.min.js"></script>
-		<script type="text/javascript"src="hashchange.js"></script>
-		<script type="text/javascript"src="notescript.js"></script>
+		<footer>
+			Created by 
+			<a href="http://twitter.com/BoringCode"target="_blank">Bradley Rosenfeld</a>
+			<a href="#" class="delete-all">Delete All</a>
+		</footer>
+		<script type="text/javascript"src="main.js"></script>
 	</body>
 </html>
