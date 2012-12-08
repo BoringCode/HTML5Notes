@@ -276,7 +276,7 @@ footer {
 		width:  80px;
 		font-size: 14px;
 	}
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
 	.notes-section .view {
 		position: absolute;
 		top: 24px;
@@ -284,6 +284,8 @@ footer {
 		opacity: 1;
 		float: none;
 	}
+}
+@media screen and (max-width: 800px) {
 	.notes-section time {
 		display: block;
 	}
