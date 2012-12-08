@@ -9,16 +9,17 @@
 	</head>
 	<body>
 		<div class="new-note">
-			<h2>Add New Note</h2>
-			<input type="text" class="note-title" placeholder="Note Title">
-			<textarea class="note-text" placeholder="Note Text"></textarea>
-			<input type="submit" class="save-note" value="Add Note">
-			<a href="#" class="close">X</a>
+			<form>
+				<input type="text" class="note-title" placeholder="Title">
+				<textarea class="note-text" placeholder="Type your note (markdown may be used)..."></textarea>
+				<button class="save-note success">Save</button>
+				<button class="close danger">Cancel</button>
+			</form>
 		</div>
 		<div class="wrap">
 			<header>
 				<h1>HTML5<span class="notestitle">Notes</span></h1>
-				<a href="#" class="add-note">Add Note</a>
+				<a href="#" class="add-note">New</a>
 			</header>
 			<div class="notes-section">
 				<ul></ul>
@@ -29,6 +30,7 @@
 				<a href="#" class="delete-all">Delete All</a>
 			</footer>
 		</div>
-		<script type="text/javascript"src="main.js"></script>
+		<script src="marked.js"></script>
+		<script src="main.js"></script>
 	</body>
 </html>
