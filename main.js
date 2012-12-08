@@ -362,6 +362,7 @@ document.querySelector(".add-note").onclick = function() {
 		} else {
 			message.alert("Error! You need to fill out all the fields.");
 		}
+		return false;
 	}
 	return false;
 }
