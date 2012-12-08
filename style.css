@@ -153,7 +153,7 @@ header {
 			opacity: 0.8;
 		}
 	li.single-note {
-		padding: 10px 40px 50px 40px;
+		padding: 10px 40px 60px 40px;
 		min-height: 300px;
 	}
 		.single-note ul {
@@ -292,6 +292,13 @@ footer {
 	.new-note {
 		height: 480px;
 	}
+	.notes-section .note-title {
+		max-width: 100%;
+		margin-right: 0;
+	}
+	.notes-section time {
+		margin-bottom: 20px;
+	}
 	.notes-section .button, .new-note button, .single-note .button {
 		position: relative;
 		top: 0;
@@ -308,6 +315,7 @@ footer {
 			width: 100%;
 			position: relative;
 			right: 0;
+			margin-top: 4px;
 		}
 }
 @media screen and (max-width: 400px) {
