@@ -100,10 +100,12 @@ var notes = {
 		document.querySelector(".note-title").value = value.note[0].data.title;
 		document.querySelector(".note-text").value = value.note[0].data.note;
 		//animate the new note section down
-		animate.pushDown(document.querySelector(".new-note"), 10);
+		animate.pushDown(document.querySelector(".new-note"), 4, function() {
+			document.querySelector(".note-title").focus();
+		});
 		//close button (cancel)
 		document.querySelector(".close").onclick = function() {
-			animate.pushUp(document.querySelector(".new-note"), 10);
+			animate.pushUp(document.querySelector(".new-note"), 4);
 			document.querySelector(".note-title").value = "";
 			document.querySelector(".note-text").value = "";
 			return false;
@@ -116,7 +118,7 @@ var notes = {
 				instance.create(noteTitle, noteText, id);
 				document.querySelector(".note-title").value = "";
 				document.querySelector(".note-text").value = "";
-				animate.pushUp(document.querySelector(".new-note"), 10, function() {
+				animate.pushUp(document.querySelector(".new-note"), 4, function() {
 					//show a message when I've saved the note
 					message.alert("Success! Note saved.");
 				});
@@ -400,7 +402,9 @@ window.onhashchange = instance.show;
 
 //add notes
 document.querySelector(".add-note").onclick = function() {
-	animate.pushDown(document.querySelector(".new-note"), 4);
+	animate.pushDown(document.querySelector(".new-note"), 4, function() {
+		document.querySelector(".note-title").focus();	
+	});
 	document.querySelector(".close").onclick = function() {
 		animate.pushUp(document.querySelector(".new-note"), 4);
 		document.querySelector(".note-title").value = "";
