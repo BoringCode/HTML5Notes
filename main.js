@@ -15,7 +15,11 @@ var notes = {
 					//get the local storage key and value
 					value = JSON.parse(localStorage.getItem(key));
 					note = document.createElement("li");
-					note.innerHTML = '<h2>' + value.note[0].data.title + '</h2> <time>Created on ' + value.note[0].data.date + ' at ' + value.note[0].data.time + '</time> <a href="#' + value.note[0].data.id + '">View</a></li>';
+					title = document.createElement("h2");
+					title.setAttribute("class", "note-title");
+					title.textContent = value.note[0].data.title;
+					note.appendChild(title);
+					note.innerHTML += '<time>Created on ' + value.note[0].data.date + ' at ' + value.note[0].data.time + '</time> <a href="#' + value.note[0].data.id + '" class="button success view">View</a></li>';
 					section.appendChild(note);
 					animate.fade(note, 20);
 				}
@@ -27,11 +31,18 @@ var notes = {
 					if (location.hash.substring(1) !== this.hash) {
 						id = location.hash.substring(1);
 						value = JSON.parse(localStorage.getItem(id));
-						note.innerHTML = '<h2>' + value.note[0].data.title + '</h2> <time>Created on ' + value.note[0].data.date + ' at ' +value.note[0].data.time + '</time>';
-						note.innerHTML += marked(value.note[0].data.note);
+						title = document.createElement("h2");
+						title.setAttribute("class", "note-title");
+						title.textContent = value.note[0].data.title;
+						note.appendChild(title);
+						note.innerHTML += '<time>Created on ' + value.note[0].data.date + ' at ' +value.note[0].data.time + '</time>';
+						noteContent = document.createElement("div");
+						noteContent.innerHTML = marked(value.note[0].data.note);
+						note.appendChild(noteContent);
 						//delete the note
 						deleteNote = document.createElement("a");
 						deleteNote.setAttribute("href", "#");
+						deleteNote.setAttribute("class", "button danger");
 						deleteNote.textContent = "Delete";
 						deleteNote.onclick = function() {
 							notes.remove(id);
@@ -40,6 +51,7 @@ var notes = {
 						//edit the note
 						editNote = document.createElement("a");
 						editNote.setAttribute("href", "#");
+						editNote.setAttribute("class", "button success");
 						editNote.textContent = "Edit";
 						editNote.onclick = function() {
 							notes.edit(id);
@@ -49,7 +61,7 @@ var notes = {
 						note.appendChild(deleteNote);
 					}
 				} else {
-					note.innerHTML = "<h2>Looks like that note doesn't exist.</h2> <a href='#home'>Go back</a>";
+					note.innerHTML = "<h2 class='no-notes'>Looks like that note doesn't exist.</h2> <a href='#home' class='button success'>Go back</a>";
 				}
 				note.setAttribute("class", "single-note");
 				this.hash = location.hash.substring(1);
@@ -58,7 +70,7 @@ var notes = {
 			}
 		} else {
 			note = document.createElement("li");
-			note.innerHTML = "<h1>Looks like there are no notes. Add some!</h1>";
+			note.innerHTML = "<h1 class='no-notes'>Looks like there are no notes. Add some!</h1>";
 			section.appendChild(note);
 			animate.fade(note, 20);
 		}
@@ -91,13 +103,12 @@ var notes = {
 		}
 	},
 	create: function(title, note, id = false) {
-		//note = note.replace(/(\r\n|\n|\r)/gm, "<br>");
-		//come up with a random ID
 		if (id === false) {
-			id = Math.floor(Math.random()*90000);
-			//if the random ID has been used already, try again
+			//make me an id
+			id = localStorage.length
+			//the just in case thing
 			while (id in localStorage) {
-				id = Math.floor(Math.random()*90000);
+				id += 1;
 			}
 		}
 		//get the date and time
@@ -114,6 +125,9 @@ var notes = {
 			hours = hours - 12;
 			period = "pm";
 		} else {
+			if (hours === 0) {
+				hours = 12
+			}
 			period = "am";
 		}
 		date = month + "/" + day + "/" + year;
@@ -242,7 +256,7 @@ var animate = {
 	}
 }
 var message = {
-	speed: 40, //milliseconds
+	speed: 10, //milliseconds
 	hide: 4, //seconds
 	ok: "Ok",
 	cancel: "Cancel",
