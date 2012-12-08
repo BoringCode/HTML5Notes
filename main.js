@@ -1,3 +1,7 @@
+if (!window.localStorage) {
+	alert("Your browser does not support local storage, please try another one.");
+}
+
 var notes = {
 	section: null,
 	hash: null,
@@ -5,23 +9,25 @@ var notes = {
 		this.section = document.querySelector(selector)
 		return this
 	},
-	show : function() {
+	show: function() {
 		section = this.section;
 		section.innerHTML = "";
-		if (localStorage.length !== 0) {
+		if (localStorage.length > 0) {
 			if (location.hash === "" || location.hash === "#home") {
 				this.hash = null;
 				for (key in localStorage) {
-					//get the local storage key and value
-					value = JSON.parse(localStorage.getItem(key));
-					note = document.createElement("li");
-					title = document.createElement("h2");
-					title.setAttribute("class", "note-title");
-					title.textContent = value.note[0].data.title;
-					note.appendChild(title);
-					note.innerHTML += '<time>Created on ' + value.note[0].data.date + ' at ' + value.note[0].data.time + '</time> <a href="#' + value.note[0].data.id + '" class="button success view">View</a></li>';
-					section.appendChild(note);
-					animate.fade(note, 20);
+					if (!isNaN(key)) {
+						//get the local storage key and value
+						value = JSON.parse(localStorage.getItem(key));
+						note = document.createElement("li");
+						title = document.createElement("h2");
+						title.setAttribute("class", "note-title");
+						title.textContent = value.note[0].data.title;
+						note.appendChild(title);
+						note.innerHTML += '<time>Created on ' + value.note[0].data.date + ' at ' + value.note[0].data.time + '</time> <a href="#' + value.note[0].data.id + '" class="button success view">View</a></li>';
+						section.appendChild(note);
+						animate.fade(note, 20);
+					}
 				}
 			} else {
 				note = document.createElement("li");
@@ -102,8 +108,8 @@ var notes = {
 			}
 		}
 	},
-	create: function(title, note, id = false) {
-		if (id === false) {
+	create: function(title, note, id) {
+		if (typeof(id) === "undefined") {
 			//make me an id
 			id = localStorage.length
 			//the just in case thing
@@ -175,7 +181,7 @@ var animate = {
 		}
 		return currtop;	
 	},
-	fade: function(elem, speed, callback = false) {
+	fade: function(elem, speed, callback) {
 		if (elem.style) {
 			elem.style.opacity = 0;
 			elem.style.display = "block";
@@ -190,7 +196,7 @@ var animate = {
 			}
 		}, speed);
 	},
-	pushDown: function(elem, speed, callback = false) {
+	pushDown: function(elem, speed, callback) {
 		numPerTime = elem.offsetHeight / 8;
 		nodes = document.getElementsByTagName("body")[0].children;
 		elem.style.position = "absolute";
@@ -222,7 +228,7 @@ var animate = {
 			}
 		}, speed);
 	},
-	pushUp: function(elem, speed, callback = false) {
+	pushUp: function(elem, speed, callback) {
 		numPerTime = elem.offsetHeight / 8;
 		nodes = document.getElementsByTagName("body")[0].children;
 		elem.style.position = "absolute";
