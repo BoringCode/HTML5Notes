@@ -152,7 +152,7 @@ header {
 		.notes-section li:hover .button:hover {
 			opacity: 0.8;
 		}
-	li.single-note {
+	.notes-section > ul > li.single-note {
 		padding: 10px 40px 60px 40px;
 		min-height: 300px;
 	}
