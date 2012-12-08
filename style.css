@@ -5,6 +5,11 @@ body {
     font-family: 'Helvetica', sans-serif;
 }
 
+a {
+	color: inherit;
+	text-decoration: underline;
+}
+
 .new-note, .alert {
 	position: absolute;
 	top: -1000px;
@@ -132,7 +137,7 @@ header {
 		line-height: 14px;
 		font-style: italic;
 	}
-	.notes-section a {
+	.notes-section .button {
 		text-align: center;
 		text-decoration: none;
 	}

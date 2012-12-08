@@ -5,7 +5,6 @@ if (!window.localStorage) {
 //The magic comes out of here.
 var notes = {
 	section: null,
-	hash: null,
 	//init function, set the element that contains the notes
 	init : function(selector) {
 		this.section = document.querySelector(selector)
@@ -20,7 +19,6 @@ var notes = {
 		if (localStorage.length > 0) {
 			//am I home?
 			if (location.hash === "" || location.hash === "#home") {
-				this.hash = null;
 				//show all of them
 				for (key in localStorage) {
 					//make sure the key is a number, won't catch all possible problems but it will get most of them.
@@ -45,48 +43,44 @@ var notes = {
 				note = document.createElement("li");
 				//check to make sure note exists
 				if (location.hash.substring(1) in localStorage) {
-					//check to make sure it hasn't been loaded already
-					if (location.hash.substring(1) !== this.hash) {
-						//load it in
-						id = location.hash.substring(1);
-						value = JSON.parse(localStorage.getItem(id));
-						//make the title
-						title = document.createElement("h2");
-						title.setAttribute("class", "note-title");
-						title.textContent = value.note[0].data.title;
-						note.appendChild(title);
-						note.innerHTML += '<time>Created on ' + value.note[0].data.date + ' at ' +value.note[0].data.time + '</time>';
-						noteContent = document.createElement("div");
-						//render the markdown content
-						noteContent.innerHTML = marked(value.note[0].data.note);
-						note.appendChild(noteContent);
-						//delete the note
-						deleteNote = document.createElement("a");
-						deleteNote.setAttribute("href", "#");
-						deleteNote.setAttribute("class", "button danger");
-						deleteNote.textContent = "Delete";
-						deleteNote.onclick = function() {
-							notes.remove(id);
-							return false;
-						}
-						//edit the note
-						editNote = document.createElement("a");
-						editNote.setAttribute("href", "#");
-						editNote.setAttribute("class", "button success");
-						editNote.textContent = "Edit";
-						editNote.onclick = function() {
-							notes.edit(id);
-							return false;
-						}
-						note.appendChild(editNote);
-						note.appendChild(deleteNote);
+					//load it in
+					id = location.hash.substring(1);
+					value = JSON.parse(localStorage.getItem(id));
+					//make the title
+					title = document.createElement("h2");
+					title.setAttribute("class", "note-title");
+					title.textContent = value.note[0].data.title;
+					note.appendChild(title);
+					note.innerHTML += '<time>Created on ' + value.note[0].data.date + ' at ' +value.note[0].data.time + '</time>';
+					noteContent = document.createElement("div");
+					//render the markdown content
+					noteContent.innerHTML = marked(value.note[0].data.note);
+					note.appendChild(noteContent);
+					//delete the note
+					deleteNote = document.createElement("a");
+					deleteNote.setAttribute("href", "#");
+					deleteNote.setAttribute("class", "button danger");
+					deleteNote.textContent = "Delete";
+					deleteNote.onclick = function() {
+						notes.remove(id);
+						return false;
 					}
+					//edit the note
+					editNote = document.createElement("a");
+					editNote.setAttribute("href", "#");
+					editNote.setAttribute("class", "button success");
+					editNote.textContent = "Edit";
+					editNote.onclick = function() {
+						notes.edit(id);
+						return false;
+					}
+					note.appendChild(editNote);
+					note.appendChild(deleteNote);
 				} else {
 					//404 page
 					note.innerHTML = "<h2 class='no-notes'>Looks like that note doesn't exist.</h2> <a href='#home' class='button success'>Go back</a>";
 				}
 				note.setAttribute("class", "single-note");
-				this.hash = location.hash.substring(1);
 				section.appendChild(note);
 				animate.fade(note, 20);
 			}
@@ -141,6 +135,11 @@ var notes = {
 			while (id in localStorage) {
 				id += 1;
 			}
+			//if I'm making a new item, I want to go to the home page
+			page = "#home";
+		} else {
+			//if I'm editing a current item, I just want to reload that item
+			page = "#" + id;
 		}
 		//get the date and time
 		currentTime = new Date()
@@ -181,7 +180,7 @@ var notes = {
 		//stringify so I can store it as a key/value pair
 		localStorage.setItem(id, JSON.stringify(object));
 		//set the hash to home and reload the notes
-		location.hash = "#home";
+		location.hash = page;
 		this.show();
 	},
 	//remove all or one note(s)
