@@ -183,6 +183,14 @@ header {
 			font-size: 18px;
 			margin-bottom: 10px;
 		}
+		.notes-section li div h5 {
+			font-size: 17px;
+			margin-bottom: 10px;
+		}
+		.notes-section li div h6 {
+			font-size: 15px;
+			margin-bottom: 10px;
+		}
 		.notes-section li div p {
 			margin-bottom: 10px;
 		}
