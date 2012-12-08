@@ -52,7 +52,7 @@ header {
 	position: relative;
 }
 	header h1 {
-		font-family: 'Gloria Hallelujah', cursive;
+		font-family: 'Gloria Hallelujah';
 		cursor: pointer;
 		color: #e44d26;
 		text-shadow: 0 -1px 1px #000;
@@ -126,7 +126,7 @@ header {
 		}
 	.notes-section .note-title {
 		color: #e44d26;
-		font-family: 'Gloria Hallelujah', cursive;
+		font-family: 'Gloria Hallelujah';
 		display: inline-block;
 		max-width: 80%;
 		margin-right: 2%;
