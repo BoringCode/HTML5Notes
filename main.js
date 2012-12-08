@@ -154,14 +154,14 @@ var notes = {
 		if (minutes < 10) {
 			minutes = "0" + minutes;
 		}
-		if (hours > 12) {
+		if (hours >= 12) {
 			hours = hours - 12;
 			period = "pm";
 		} else {
-			if (hours === 0) {
-				hours = 12
-			}
 			period = "am";
+		}
+		if (hours === 0) {
+			hours = 12
 		}
 		//date and time
 		date = month + "/" + day + "/" + year;
