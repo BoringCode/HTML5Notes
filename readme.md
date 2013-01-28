@@ -6,4 +6,4 @@ I made this for the [Mozilla Dev Derby (December 2012)](https://developer.mozill
 
 It is designed to completely work offline, thus notes are saved in local storage.
 
-[Demo](http://boringcode.github.com/HTML5Notes/)
+[Demo](http://bradleyrosenfeld.com/HTML5Notes/)
