@@ -4,6 +4,7 @@ if (!window.localStorage) {
 }
 //The magic comes out of here.
 var notes = {
+	prependID: "html5notes-",
 	section: null,
 	//init function, set the element that contains the notes
 	init : function(selector) {
@@ -13,6 +14,7 @@ var notes = {
 	//show a single note, or all of them
 	show: function() {
 		section = this.section;
+		prependID = this.prependID;
 		//every time this runs, just remove all the content from the container
 		section.innerHTML = "";
 		//check to see if there are values in local storage
@@ -22,7 +24,7 @@ var notes = {
 				//show all of them
 				for (key in localStorage) {
 					//make sure the key is a number, won't catch all possible problems but it will get most of them.
-					if (!isNaN(key)) {
+					if (key.match(prependID)) {
 						//get the local storage key and value
 						value = JSON.parse(localStorage.getItem(key));
 						//make me a note
@@ -42,7 +44,7 @@ var notes = {
 				//okay, I'm just going to show one note
 				note = document.createElement("li");
 				//check to make sure note exists
-				if (location.hash.substring(1) in localStorage) {
+				if (location.hash.substring(1) in localStorage && location.hash.substring(1).match(prependID)) {
 					//load it in
 					id = location.hash.substring(1);
 					value = JSON.parse(localStorage.getItem(id));
@@ -132,10 +134,12 @@ var notes = {
 		//if I'm not trying to save an already existent note, make a new ID
 		if (typeof(id) === "undefined") {
 			//make me an id
-			id = localStorage.length
+			num = localStorage.length;
+			id = this.prependID + num;
 			//the just in case thing
 			while (id in localStorage) {
-				id += 1;
+				num += 1;
+				id = this.prependID + num;
 			}
 			//if I'm making a new item, I want to go to the home page
 			page = "#home";
@@ -165,13 +169,13 @@ var notes = {
 		}
 		//date and time
 		date = month + "/" + day + "/" + year;
-		time = hours + ":" + minutes + period;  
+		time = hours + ":" + minutes + period;
 		//create the JSON object
 		object = {
 			"note": [{
 				"data": {
-					"note": note, 
-					"title": title, 
+					"note": note,
+					"title": title,
 					"id": id,
 					"date": date,
 					"time": time,
@@ -213,7 +217,7 @@ var animate = {
 				currtop += obj.offsetTop;
 			} while (obj = obj.offsetParent);
 		}
-		return currtop;	
+		return currtop;
 	},
 	//fade in an element. Doesn't matter if the element is already visible (which serves my purposes just fine)
 	fade: function(elem, speed, callback) {
@@ -395,15 +399,15 @@ var message = {
 }
 
 //BEGIN THE AWESOME!
-marked.setOptions({ sanitize: true })
-instance = notes.init(".notes-section ul")
-instance.show()
+marked.setOptions({ sanitize: true });
+instance = notes.init(".notes-section ul");
+instance.show();
 window.onhashchange = instance.show;
 
 //add notes
 document.querySelector(".add-note").onclick = function() {
 	animate.pushDown(document.querySelector(".new-note"), 4, function() {
-		document.querySelector(".note-title").focus();	
+		document.querySelector(".note-title").focus();
 	});
 	document.querySelector(".close").onclick = function() {
 		animate.pushUp(document.querySelector(".new-note"), 4);
