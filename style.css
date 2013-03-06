@@ -17,7 +17,7 @@ a {
 	padding: 10px 40px 10px 40px;
 	background: #333333;
 	height: 400px;
-	-webkit-box-shadow: inset 0px 0px 60px 0px rgba(0, 0, 0, 0.8);        
+	-webkit-box-shadow: inset 0px 0px 60px 0px rgba(0, 0, 0, 0.8);
     box-shadow: inset 0px 0px 60px 0px rgba(0, 0, 0, 0.8);
 	z-index: 1001;
 	border-bottom: #AAABAB 4px solid;
@@ -207,7 +207,7 @@ header {
 				right: 40px;
 				left: auto;
 			}
-		
+
 	.no-notes {
 		text-align: center;
 		font-size: 28px;
@@ -302,6 +302,7 @@ footer {
 @media screen and (max-width: 560px) {
 	.new-note {
 		height: 480px;
+		padding: 10px 10px;
 	}
 	.notes-section .note-title {
 		max-width: 100%;
@@ -317,7 +318,9 @@ footer {
 		right: 0;
 		display: block;
 		width: 100%;
-		margin-top: 20px;
+		margin-top: 10px;
+		height: 40px;
+		line-height: 40px;
 	}
 	footer {
 		position: relative;
@@ -331,7 +334,10 @@ footer {
 }
 @media screen and (max-width: 400px) {
 	header {
-		height: 130px;
+		height: 100px;
+	}
+	header h1 {
+		line-height: 45px;
 	}
 	.add-note {
 		position: relative;
