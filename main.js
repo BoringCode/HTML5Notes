@@ -1,5 +1,5 @@
 //just yell at the user if they try to run the site without a "modern" browser
-if (!window.localStorage) {
+if (!document.querySelector || !window.localStorage || !window.addEventListener) {
 	alert("Your browser does not support local storage, please try another one.");
 }
 //The magic comes out of here.
@@ -102,9 +102,7 @@ var notes = {
 		document.querySelector(".note-title").value = value.note[0].data.title;
 		document.querySelector(".note-text").value = value.note[0].data.note;
 		//animate the new note section down
-		animate.pushDown(document.querySelector(".new-note"), 4, function() {
-			document.querySelector(".note-title").focus();
-		});
+		animate.pushDown(document.querySelector(".new-note"), 4);
 		//close button (cancel)
 		document.querySelector(".close").onclick = function() {
 			animate.pushUp(document.querySelector(".new-note"), 4);
@@ -239,6 +237,7 @@ var animate = {
 	},
 	//this makes one element "push" all the other elements on the page down from the top of the page
 	pushDown: function(elem, speed, callback) {
+		window.scroll(0, 0);
 		//somewhat hacky way to keep the speed even if the height is really tall or really short.
 		numPerTime = elem.offsetHeight / 8;
 		//get the children of the body
@@ -278,6 +277,7 @@ var animate = {
 	},
 	//same idea, in reverse. All the elements on the page push one element up out of sight
 	pushUp: function(elem, speed, callback) {
+		window.scroll(0, 0);
 		numPerTime = elem.offsetHeight / 8;
 		nodes = document.getElementsByTagName("body")[0].children;
 		elem.style.position = "absolute";
